@@ -32,11 +32,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on("sendLocation", (loc, callback) => {
-        io.emit('message', `https://google.com/maps?q=${loc.latitude},${loc.longitude}`,
-            (res) => {
-                console.log(res);
-            }
-        );
+        io.emit('message', `https://google.com/maps?q=${loc.latitude},${loc.longitude}`);
 
         callback();
     });
