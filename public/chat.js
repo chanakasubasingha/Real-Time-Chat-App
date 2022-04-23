@@ -6,8 +6,9 @@ const $messageFormInput = $messageForm.querySelector('input');
 const $messageFormButton = $messageForm.querySelector('button');
 const $sendLocationButton = document.querySelector('#send-location');
 
-socket.on('message', (msg) => {
-    console.log(msg);
+socket.on('message', ({ text, createdAt }) => {
+    console.log(text, createdAt);
+    document.querySelector();
 });
 
 document.querySelector('#message-form').addEventListener('submit', (event) => {

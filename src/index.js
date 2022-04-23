@@ -1,24 +1,26 @@
 const express = require('express');
 const http = require('http');
-const path = require('path');
 const socketIo = require('socket.io');
 const Filter = require('bad-words');
+const { generateMessage, generateLocation } = require('./utils/messages');
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
+const io = socketIo(server, {
+    cors: {
+        origin: "*",
+    },
+});
 
 const PORT = process.env.PORT || 5000;
-const publicDirectoryPath = path.join(__dirname, '../public');
 
-app.use(express.static(publicDirectoryPath));
 app.use(express.json());
 
 io.on('connection', (socket) => {
     console.log('New web socket connection');
 
-    socket.emit('message', 'Welcome');
-    socket.broadcast.emit('message', 'A new user has joined!');
+    socket.emit('message', generateMessage('Welcome'));
+    socket.broadcast.emit('message', generateMessage('A new user has joined!'));
 
     socket.on("sendMessage", (msg, callback) => {
         const filter = new Filter();
@@ -27,18 +29,17 @@ io.on('connection', (socket) => {
             return callback('Profanity is not allowed!');
         }
 
-        io.emit('message', msg);
+        io.emit('message', generateMessage(msg));
         callback();
     });
 
     socket.on("sendLocation", (loc, callback) => {
-        io.emit('message', `https://google.com/maps?q=${loc.latitude},${loc.longitude}`);
-
+        io.emit('message', generateLocation(loc));
         callback();
     });
 
     socket.on('disconnect', () => {
-        io.emit('message', 'A user has left!');
+        io.emit('message', generateMessage('A user has left!'));
     });
 });
 
