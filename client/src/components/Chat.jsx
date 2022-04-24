@@ -5,7 +5,7 @@ import UserContext from '../UserContext';
 function Chat() {
     const navigate = useNavigate();
 
-    const { socket } = useContext(UserContext);
+    const { socket, currentUser } = useContext(UserContext);
 
     const [data, setData] = useState([]);
     const [roomData, setRoomData] = useState({
@@ -67,6 +67,36 @@ function Chat() {
         setDisabled({ locationButton: false });
     };
 
+    const getChatPosition = (username) => {
+        if (username === 'Admin') {
+            return { width: '100%', textAlign: 'center', color: '#0070CC' };
+        } else if (username === currentUser) {
+            return { width: '100%', textAlign: 'left', color: '#0070CC' };
+        } else {
+            return { width: '100%', textAlign: 'right', color: '#0070CC' };
+        }
+    };
+
+    const getChatColor = (username) => {
+        if (username === 'Admin') {
+            return { color: '#06113C' };
+        } else if (username === currentUser) {
+            return { color: '#4D96FF' };
+        } else {
+            return { color: '#066163' };
+        }
+    };
+
+    const getHeaderColor = (username) => {
+        if (username === 'Admin') {
+            return { color: 'tomato' };
+        } else if (username === currentUser) {
+            return { color: '#9900F0' };
+        } else {
+            return { color: '#8479E1' };
+        }
+    };
+
     return (
         <>
             <div className="chat">
@@ -80,16 +110,16 @@ function Chat() {
                     </ul>
                 </div>
                 <div className="chat__main">
-                    <div className="chat__messages" >
+                    <div className="chat__messages flex-container" >
                         {data.map(({ createdAt, res, type, username }, index) => {
                             return (
-                                <div>
-                                    <div key={index} className='message' >
+                                <div key={index} style={getChatPosition(username)}>
+                                    <div className='message' >
                                         <p>
-                                            <span className='message__name' style={username === 'Admin' ? { color: 'tomato' } : { color: '#000f1e' }}>{username}</span>
+                                            <span className='message__name' style={getHeaderColor(username)}>{username}</span>
                                             <span className='message__meta'>{createdAt}</span>
                                         </p>
-                                        <p>{type === 'loc' ? <Link to={res}>My Current Location</Link> : res}</p>
+                                        <p style={getChatColor(username)}>{type === 'loc' ? <Link to={res}>My Current Location</Link> : res}</p>
                                     </div>
                                 </div>
                             );

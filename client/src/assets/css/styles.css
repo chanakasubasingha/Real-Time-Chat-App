@@ -184,3 +184,15 @@ button:disabled {
     font-weight: 300;
     padding: 12px 24px 0 24px;
 }
+
+.flex-container {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.item:nth-child(2n) {
+    width: 100%;
+    text-align: right;
+    color: #0070CC;
+}

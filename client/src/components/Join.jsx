@@ -5,7 +5,7 @@ import UserContext from '../UserContext';
 function Join() {
     const navigate = useNavigate();
 
-    const { setSession, socket } = useContext(UserContext);
+    const { setCurrentUser, socket } = useContext(UserContext);
 
     const [userData, setUserData] = useState({
         username: '',
@@ -26,10 +26,7 @@ function Join() {
         e.preventDefault();
         const { username, room } = userData;
 
-        setSession({
-            username,
-            room
-        });
+        setCurrentUser(username);
 
         socket.emit('join', { username, room }, (error) => {
             if (error) {

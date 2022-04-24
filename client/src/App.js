@@ -8,20 +8,17 @@ const socket = io("http://localhost:5000");
 
 function App() {
 
-  const [session, setSession] = useState({
-    username: '',
-    room: ''
-  });
+  const [currentUser, setCurrentUser] = useState('');
 
   const appSettings = {
-    session,
-    setSession,
+    currentUser,
+    setCurrentUser,
     socket
   };
 
   return (
     <Router>
-      <UserContext.Provider value={appSettings} children={setSession}>
+      <UserContext.Provider value={appSettings}>
         <Routes>
           <Route path="/chat" element={<Chat />} />
           <Route path="/" element={<Join />} />
