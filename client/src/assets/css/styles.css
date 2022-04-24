@@ -40,28 +40,29 @@ input {
 button {
     cursor: pointer;
     padding: 12px;
-    background: #7C5CBF;
+    background: #005A9C;
     border: none;
     color: white;
     font-size: 16px;
+    border-radius: 8px;
     transition: background .3s ease;
 }
 
 button:hover {
-    background: #6b47b8;
+    background: #005A9C
 }
 
 button:disabled {
     cursor: default;
-    background: #7c5cbf94;
+    background: #cccccc;
 }
 
 /* Join Page Styles */
 
 .centered-form {
-    background: #333744;
+    background: #36454F;
     width: 100vw;
-    height: 100vh;   
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -80,6 +81,7 @@ button:disabled {
 
 .centered-form input {
     margin-bottom: 16px;
+    border-radius: 5px;
     width: 100%;
 }
 
@@ -92,7 +94,7 @@ button:disabled {
 .chat__sidebar {
     height: 100vh;
     color: white;
-    background: #333744;
+    background: #36454F;
     width: 225px;
     overflow-y: scroll
 }
@@ -115,7 +117,7 @@ button:disabled {
 /* Message Styles */
 
 .message {
-    margin-bottom: 16px;   
+    margin-bottom: 16px;
 }
 
 .message__name {
@@ -149,11 +151,12 @@ button:disabled {
 }
 
 .compose input {
-    border: 1px solid #eeeeee;
+    border: 1px solid #005A9C;
     width: 100%;
     padding: 12px;
     margin: 0 16px 0 0;
     flex-grow: 1;
+    border-radius: 8px;
 }
 
 .compose button {
@@ -166,7 +169,7 @@ button:disabled {
     font-weight: 400;
     font-size: 22px;
     background: #2c2f3a;
-    padding: 24px;   
+    padding: 24px;
 }
 
 .list-title {

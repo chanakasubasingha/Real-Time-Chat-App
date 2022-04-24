@@ -1,19 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { io } from 'socket.io-client';
+import { Link, useNavigate } from 'react-router-dom';
 import UserContext from '../UserContext';
-const socket = io("http://localhost:5000/");
 
-function Home() {
-    const { session: { username } } = useContext(UserContext);
+function Chat() {
+    const navigate = useNavigate();
+
+    const { socket } = useContext(UserContext);
 
     const [data, setData] = useState([]);
+    const [roomData, setRoomData] = useState({
+        roomName: '',
+        users: []
+    });
 
     useEffect(() => {
         socket.on('message', (response) => {
             setData([...data, response]);
         });
-    }, [data]);
+
+        socket.on('roomData', ({ room, users }) => {
+            setRoomData({ roomName: room, users });
+        });
+
+    }, [data, navigate, socket]);
 
     const [disabled, setDisabled] = useState({
         messageButton: false,
@@ -28,6 +37,9 @@ function Home() {
 
     const onSendMessage = (e) => {
         e.preventDefault();
+        if (!userInput) {
+            return;
+        }
         setDisabled({ messageButton: true });
 
         socket.emit('sendMessage', userInput, (error) => {
@@ -56,37 +68,44 @@ function Home() {
     };
 
     return (
-        <div>
+        <>
             <div className="chat">
                 <div className="chat__sidebar">
-
+                    <h2 className='room-title'>Room: {roomData.roomName}</h2>
+                    <h3 className='list-title'>Users</h3>
+                    <ul className='users'>
+                        {roomData.users.map((user) => {
+                            return <li key={user.id}>{user.username}</li>;
+                        })}
+                    </ul>
                 </div>
-                <div>{username}</div>
                 <div className="chat__main">
-                    <div className="chat__messages">
-                        {data.map(({ createdAt, res, type }, index) => {
+                    <div className="chat__messages" >
+                        {data.map(({ createdAt, res, type, username }, index) => {
                             return (
-                                <div key={index} className='message'>
-                                    <p>
-                                        <span className='message__name'>Some User Name</span>
-                                        <span className='message__meta'>{createdAt}</span>
-                                    </p>
-                                    <p>{type === 'loc' ? <Link to={res}>My Current Location</Link> : res}</p>
+                                <div>
+                                    <div key={index} className='message' >
+                                        <p>
+                                            <span className='message__name' style={username === 'Admin' ? { color: 'tomato' } : { color: '#000f1e' }}>{username}</span>
+                                            <span className='message__meta'>{createdAt}</span>
+                                        </p>
+                                        <p>{type === 'loc' ? <Link to={res}>My Current Location</Link> : res}</p>
+                                    </div>
                                 </div>
                             );
                         })}
                     </div>
                     <div className="compose">
                         <form id="message-form">
-                            <input name="message" placeholder="hello there!" value={userInput} onChange={handleChange} />
-                            <button onClick={onSendMessage} disabled={disabled.messageButton}>Send</button>
+                            <input name="message" placeholder="hello there!" value={userInput} onChange={handleChange} required />
+                            <button onClick={onSendMessage} disabled={disabled.messageButton || !userInput} >Send</button>
                         </form>
                         <button id="send-location" onClick={onSendLocation}>Send Location</button>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 
-export default Home;
+export default Chat;
