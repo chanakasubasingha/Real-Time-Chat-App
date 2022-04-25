@@ -28,21 +28,22 @@ function Join() {
 
         setCurrentUser(username);
 
-        // if (room.length > 10) {
-        //     return setErrorMessage('room must be 10 characters or less!');
-        // }
+        if (room.length > 10) {
+            return setErrorMessage('room must be 10 characters or less!');
+        }
 
-        // if (username.length > 10) {
-        //     return setErrorMessage('username must be 10 characters or less!');
-        // }
+        if (username.length > 10) {
+            return setErrorMessage('username must be 10 characters or less!');
+        }
 
         socket.emit('join', { username, room }, (error) => {
             if (error) {
+
                 return setErrorMessage(error);
             }
         });
 
-        navigate('/chat');
+        (username && room) && navigate('/chat');
     };
 
     return (
