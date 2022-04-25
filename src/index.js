@@ -75,8 +75,8 @@ io.on('connection', (socket) => {
 
 app.use(express.static("../client/build"));
 
-app.get("*", function (request, response) {
-    response.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
 server.listen(PORT, () => {
