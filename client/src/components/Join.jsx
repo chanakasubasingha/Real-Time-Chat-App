@@ -42,7 +42,7 @@ function Join() {
             }
         });
 
-        (username && room) && navigate('/chat');
+        navigate('/chat');
     };
 
     return (
