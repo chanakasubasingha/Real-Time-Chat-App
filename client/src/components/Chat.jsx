@@ -20,6 +20,7 @@ function Chat() {
         }
 
         socket.on('message', (response) => {
+            console.log(response);
             setData([...data, response]);
         });
 
