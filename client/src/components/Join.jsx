@@ -35,7 +35,7 @@ function Join() {
             }
         });
 
-        navigate('/chat');
+        (username && room) && navigate('/chat');
     };
 
     return (

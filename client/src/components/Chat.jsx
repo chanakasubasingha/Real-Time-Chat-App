@@ -14,6 +14,11 @@ function Chat() {
     });
 
     useEffect(() => {
+
+        if (!currentUser) {
+            return navigate('/');
+        }
+
         socket.on('message', (response) => {
             setData([...data, response]);
         });
@@ -22,7 +27,7 @@ function Chat() {
             setRoomData({ roomName: room, users });
         });
 
-    }, [data, navigate, socket]);
+    }, [data, navigate, currentUser, socket]);
 
     const [disabled, setDisabled] = useState({
         messageButton: false,
