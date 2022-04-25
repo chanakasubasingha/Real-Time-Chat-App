@@ -29,8 +29,11 @@ function Join() {
         setCurrentUser(username);
 
         if (room.length > 10) {
-
             return setErrorMessage('room cannot exceed 15 letters!');
+        }
+
+        if (username.length > 10) {
+            return setErrorMessage('username cannot exceed 15 letters!');
         }
 
         socket.emit('join', { username, room }, (error) => {
