@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const Filter = require('bad-words');
+const path = require("path");
 const { generateMessage, generateLocation } = require('./utils/messages');
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users');
 
@@ -70,6 +71,12 @@ io.on('connection', (socket) => {
             });
         }
     });
+});
+
+app.use(express.static("../client/build"));
+
+app.get("*", function (request, response) {
+    response.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
 
 server.listen(PORT, () => {
