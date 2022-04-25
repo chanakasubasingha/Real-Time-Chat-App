@@ -168,6 +168,7 @@ button:disabled {
 .room-title {
     font-weight: 400;
     font-size: 22px;
+    font-style: italic;
     background: #2c2f3a;
     padding: 24px;
 }
@@ -175,6 +176,7 @@ button:disabled {
 .list-title {
     font-weight: 500;
     font-size: 18px;
+    color: #A85CF9;
     margin-bottom: 4px;
     padding: 12px 24px 0 24px;
 }

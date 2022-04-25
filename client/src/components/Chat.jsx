@@ -107,10 +107,10 @@ function Chat() {
             <div className="chat">
                 <div className="chat__sidebar">
                     <h2 className='room-title'>Room: {roomData.roomName}</h2>
-                    <h3 className='list-title'>Users</h3>
+                    <h3 className='list-title'>Online Users</h3>
                     <ul className='users'>
                         {roomData.users.map((user) => {
-                            return <li key={user.id}>{user.username}</li>;
+                            return <li key={user.id}>{user.username} <img src={require('../assets/images/online.png')} alt="online" style={{ width: 8, marginBottom: 6 }} /></li>;
                         })}
                     </ul>
                 </div>
@@ -121,7 +121,7 @@ function Chat() {
                                 <div key={index} style={getChatPosition(username)}>
                                     <div className='message' >
                                         <p>
-                                            <span className='message__name' style={getHeaderColor(username)}>{username}</span>
+                                            <span className='message__name' style={getHeaderColor(username)}>{username} </span>
                                             <span className='message__meta'>{createdAt}</span>
                                         </p>
                                         <p style={getChatColor(username)}>{type === 'loc' ? <Link to={res}>My Current Location</Link> : res}</p>
