@@ -1,3 +1,3 @@
 # Real-Time-Chat-App
 
-Demo - https://viko-chat.herokuapp.com/
+Demo - http://54.226.142.248:8080/
